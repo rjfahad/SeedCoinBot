@@ -36,11 +36,11 @@ if [ ! -d "SeedCoinBot" ]; then
 
     # Clone the SeedCoinBot repository
     echo -e "${BLUE}Cloning SeedCoinBot repository...${NC}"
-    git clone https://github.com/rjfahad/SeedCoinBot.git
+    git clone https://github.com/rjfahad/SeedCoinBot.git || { echo -e "${RED}Failed to clone repository! Check the URL or your connection.${NC}"; exit 1; }
 
     # Change directory to SeedCoinBot
     echo -e "${BLUE}Navigating to SeedCoinBot directory...${NC}"
-    cd SeedCoinBot || exit
+    cd SeedCoinBot || { echo -e "${RED}Failed to navigate to SeedCoinBot directory!${NC}"; exit 1; }
 
     # Copy .env-example to .env
     echo -e "${BLUE}Copying .env-example to .env...${NC}"
@@ -50,49 +50,36 @@ if [ ! -d "SeedCoinBot" ]; then
     echo -e "${YELLOW}Opening .env file for editing...${NC}"
     nano .env
 
-    # Set up Python virtual environment
-    echo -e "${BLUE}Setting up Python virtual environment...${NC}"
-    python3.10 -m venv venv
-
-    # Activate the virtual environment
-    echo -e "${BLUE}Activating Python virtual environment...${NC}"
-    source venv/bin/activate
-
-    # Install required Python packages
-    echo -e "${BLUE}Installing Python dependencies from requirements.txt...${NC}"
-    pip3.10 install -r requirements.txt --quiet
-
-    echo -e "${GREEN}Installation completed! You can now run the bot.${NC}"
-
 else
     # If the directory exists, just navigate to it
     echo -e "${GREEN}SeedCoinBot is already installed. Navigating to the directory...${NC}"
-    cd SeedCoinBot || exit
-
-    # Activate the virtual environment
-    echo -e "${BLUE}Activating Python virtual environment...${NC}"
-    source venv/bin/activate
+    cd SeedCoinBot || { echo -e "${RED}Failed to navigate to SeedCoinBot directory!${NC}"; exit 1; }
 fi
 
-# Check if required Python packages are already installed
-if [ ! -f "venv/bin/activate" ]; then
-    # If the virtual environment does not exist, set it up
+# Check if virtual environment exists
+if [ ! -d "venv" ]; then
+    # Set up Python virtual environment
     echo -e "${BLUE}Setting up Python virtual environment...${NC}"
-    python3.10 -m venv venv
+    python3.10 -m venv venv || { echo -e "${RED}Failed to create virtual environment!${NC}"; exit 1; }
 
     # Activate the virtual environment
     echo -e "${BLUE}Activating Python virtual environment...${NC}"
-    source venv/bin/activate
+    source venv/bin/activate || { echo -e "${RED}Failed to activate virtual environment!${NC}"; exit 1; }
 
     # Install required Python packages
     echo -e "${BLUE}Installing Python dependencies from requirements.txt...${NC}"
-    pip3.10 install -r requirements.txt --quiet
+    pip3.10 install -r requirements.txt --quiet || { echo -e "${RED}Failed to install dependencies!${NC}"; exit 1; }
+
 else
+    # Activate the virtual environment
+    echo -e "${BLUE}Activating Python virtual environment...${NC}"
+    source venv/bin/activate || { echo -e "${RED}Failed to activate virtual environment!${NC}"; exit 1; }
+
     echo -e "${GREEN}Virtual environment already exists. Skipping dependency installation.${NC}"
 fi
 
 # Run the bot
 echo -e "${GREEN}Running the bot...${NC}"
-python3.10 main.py
+python3.10 main.py || { echo -e "${RED}Failed to run the bot!${NC}"; exit 1; }
 
 echo -e "${GREEN}Script execution completed!${NC}"
