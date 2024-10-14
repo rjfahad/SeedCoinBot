@@ -25,8 +25,8 @@ install_packages() {
     pkg install python3.10 -y
 }
 
-# Check if MyNotpixel-bot directory exists
-if [ ! -d "MyNotpixel-bot" ]; then
+# Check if SeedCoinBot directory exists
+if [ ! -d "SeedCoinBot" ]; then
     # If the directory does not exist, install everything
     install_packages
 
@@ -34,13 +34,13 @@ if [ ! -d "MyNotpixel-bot" ]; then
     echo -e "${BLUE}Upgrading pip and installing wheel...${NC}"
     pip3.10 install --upgrade pip wheel --quiet
 
-    # Clone the MyNotpixel-bot repository
-    echo -e "${BLUE}Cloning MyNotpixel-bot repository...${NC}"
-    git clone https://github.com/rjfahad/MyNotpixel-bot.git
+    # Clone the SeedCoinBot repository
+    echo -e "${BLUE}Cloning SeedCoinBot repository...${NC}"
+    git clone https://github.com/rjfahad/SeedCoinBot.git
 
-    # Change directory to MyNotpixel-bot
-    echo -e "${BLUE}Navigating to MyNotpixel-bot directory...${NC}"
-    cd MyNotpixel-bot || exit
+    # Change directory to SeedCoinBot
+    echo -e "${BLUE}Navigating to SeedCoinBot directory...${NC}"
+    cd SeedCoinBot || exit
 
     # Copy .env-example to .env
     echo -e "${BLUE}Copying .env-example to .env...${NC}"
@@ -66,8 +66,8 @@ if [ ! -d "MyNotpixel-bot" ]; then
 
 else
     # If the directory exists, just navigate to it
-    echo -e "${GREEN}MyNotpixel-bot is already installed. Navigating to the directory...${NC}"
-    cd MyNotpixel-bot || exit
+    echo -e "${GREEN}SeedCoinBot is already installed. Navigating to the directory...${NC}"
+    cd SeedCoinBot || exit
 
     # Activate the virtual environment
     echo -e "${BLUE}Activating Python virtual environment...${NC}"
